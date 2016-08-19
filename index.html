@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+		<!-- Website Title & Description for Search Engine purposes -->
+		<title></title>
+		<meta name="description" content="">
+		
+		<!-- Mobile viewport optimized -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		
+		<!-- Bootstrap CSS -->
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+		<link href="includes/css/bootstrap-glyphicons.css" rel="stylesheet">
+		
+		<!-- Custom CSS -->
+		<link href="includes/css/styles.css" rel="stylesheet">
+		
+		<!-- Include Modernizr in the head, before any other Javascript -->
+		<script src="includes/js/modernizr-2.6.2.min.js"></script>
+		<script type="text/javascript" src="includes/d3/d3.min.js"></script>
+
+		<!-- Custom Font --> <!-- Just an Example -->
+		<!-- <link href='https://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'> -->
+		
+	</head>
+	<body>
+	
+		<div class="container" id="main">
+			
+			<div class="navbar navbar-default navbar-fixed-top">
+				<div class="container">
+					<div class="navbar-header logoheader">
+						<button class="navbar-toggle collapsed" data-target=".navbar-responsive-collapse" data-toggle="collapse" type="button" aria-expanded="false">
+							<span class="glyphicon glyphicon-chevron-down clr"/>
+						</button>
+						<a href="#" class="navbar-brand mylogo" alt="Logo"><img src="images/logo3.png" alt="brand" class="mymainlogo"></a>
+					</div>
+					<div class="collapse navbar-collapse navbar-responsive-collapse mycollapse">
+						<div class="row mainmenu">	
+							<ul class="nav navbar-nav">
+								<li class="active menuitem"><a href="#">Home</a></li>
+								<li class="menuitem"><a href="#">New Student</a></li>
+								<li class="menuitem"><a href="#">About Us</a></li>
+								<li class="menuitem"><a href="#">Contact Us</a></li>
+					 		</ul>				
+						</div>	
+					</div> <!-- End of Collapsing Nav Bar -->
+				</div> <!-- End of Container -->
+			</div> <!-- End of Navbar -->
+		
+			<div class="row" id="searchme">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<h3 class="lead">
+							Student details<br>
+							<small>Search by Student name / id</small>
+						</h3> <!-- End of Lead Heading -->
+				 		<form>
+				 			<div class="row formtxt">
+								<input id="textbox-data" type="text" name="search" class="form-control">
+							</div> <!-- End of Text Box -->
+							<div class="row">
+								<label class="radio-inline">
+									<h5>Search by : </h5>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="searchType" id="searchRadio1" value="q" required> General
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="searchType" id="searchRadio2" value="id" required> ID
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="searchType" id="searchRadio3" value="clas" required> Class
+								</label>
+							</div>
+							<div class="row formbut">							
+								<button id="searchbuttonname" type="button" class="btn btn-info"><span class="glyphicon glyphicon-search"></span> Search </button>								
+					 		</div> <!-- End of Button -->
+						</form>
+					</div> <!-- End of Panel Body -->
+				</div> <!-- End of Panel -->
+			</div> <!-- End of SearchMe -->
+
+			<div class="row">
+				<div class="panel panel-default">
+					<div class="panel-heading" id="result-head">
+												
+					</div> <!-- End of Panel Body -->
+					<div class="panel-body">
+						<table class="table mytab">
+							<thead>
+								<tr>
+									<th></th>
+									<th>Id</th>
+									<th>Class</th>
+									<th>Name</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody id="result-body">
+								
+							</tbody>
+						</table>
+					</div>					
+				</div>	<!-- End of Panel -->
+				<div id="result-foot" class="full">
+												
+				</div> <!-- End of result Foot -->
+			</div> <!-- End of Row -->			
+			
+		</div> <!-- End of Container -->
+
+		<template id="show-count-template"> <!-- Template 1 - Showing Number of Records -->
+			<div class="left">
+				<button href="#my-modal-1" class="btn btn-default pull-left" data-toggle="modal">
+					<span class="glyphicon glyphicon-user"/>
+					<span class="glyphicon glyphicon-plus"/>
+				</button>
+				&nbsp;
+				<button class="btn btn-info refresh in-line">
+					<span class="glyphicon glyphicon-refresh"/>
+						Refresh
+				</button>
+				<div class="pull-right">
+					<h5>
+						<span class="recCount">Showing records </span>
+						<strong>{{start}} - 
+							<span class="end-count">{{end}}</span>
+						</strong>
+					</h5>
+				</div>
+			</div>
+		</template>
+
+		<template id="show-student-details-template"> <!-- Template 2.2 - Panel body - Stud details -->			
+			<tr class='tr'>
+				<td><span class="glyphicon glyphicon-user"></span></td>
+				<td>{{id}}</td>
+				<td id="main-clas-div">{{clas}} {{div}}</td>
+				<td id="main-name">{{name}}</td>
+				<td>
+					<button class="btn btn-default btn-xs more-details" data-id='close'>
+						<span class="glyphicon glyphicon-chevron-down"/>
+					</button>					
+				</td>
+			</tr>
+			<tr class="more-detail-row tr">
+				<td colspan="5">
+					<div class="well well-sm full-details">
+						<div class="full right more-buttons">
+							<button class="btn btn-default edit-details show-class strt-class">
+								<span class="glyphicon glyphicon-edit"/> Edit 
+							</button>
+							<button class="btn btn-danger delete-details" data-id="{{id}}">
+								<span class="glyphicon glyphicon-trash"/>  
+							</button>
+						</div>
+						<form data-toggle="validator" role="form" id="more-details-form">
+							<div class="full contain">
+								<div class="half frst-half left">
+
+									<p class="strt-class">
+										<strong>  Name</strong> : 
+										<span class="sName">{{name}}</span>
+									</p>
+
+											<p class="hide-class">
+												<strong>  Name</strong> : 
+												<input type="text" id="updatename" name="update-name" value="{{name}}" required>
+											</p>
+
+									<p class="strt-class">
+										<strong>  Class</strong> : 
+										<span class="sClass">{{clas}}</span> 
+										<span class="sDiv">{{div}}</span>
+									</p>
+
+											<p class="hide-class">
+												<strong>  Class</strong> : 
+												<input type="number" max="12" name="update-clas" id="updateclass" value="{{clas}}" class="small" required> 
+												<input type="text" name="update-div" id="updatediv" value="{{div}}" class="small" maxlength="1" required>
+											</p>
+
+									<p class="strt-class">
+										<strong>  Gender</strong> : 
+										<span class="sGendr">{{gender}}</span>
+									</p>
+
+											<p class="hide-class">
+												<strong>  Gender</strong> : 
+												<label class="radio-inline">
+													<input type="radio" class="male-radio" name="updateRadioOptions" id="updateRadio1" value="male" checked="checked" required> male
+												</label>
+												<label class="radio-inline">
+													<input type="radio" class="female-radio" name="updateRadioOptions" id="updateRadio2" value="female" required> female
+												</label>
+											</p>
+
+									<p class="strt-class">
+										<strong>  D.O.B</strong> : 
+										<span class="sDob">{{dob}}</span>
+									</p>
+
+											<p class="hide-class">
+												<strong>  D.O.B</strong> : 
+												<input type="date" id="updatedob" value="{{dob}}" class="update-dob" min="1996-01-01" max="2005-12-31" required>
+											</p>
+
+									<p class="strt-class">
+										<strong>  Father's Name</strong> : 
+										<span class="sFName">{{fatherName}}</span>
+									</p>
+
+											<p class="hide-class">
+												<strong>  Father's Name</strong> : 
+												<input type="text" id="updatefname" name="fname" class="update-fname" value="{{fatherName}}" required>
+											</p>
+
+									<p class="strt-class">
+										<strong>  Year of Join</strong> : 
+										<span class="sYJoin">{{yearOfJoin}}</span>
+									</p>
+
+											<p class="hide-class">
+												<strong>  Year of Join</strong> : 
+												<input type="date" id="updatejdate" value="{{yearOfJoin}}" class="update-join" min="2008-01-01" max="2016-12-31" required>
+											</p>
+								</div>
+								<div class="sec-half">
+
+									<p class="strt-class left">
+										<strong>  Address</strong> : 
+										<br>
+										<span class="sAddr">{{address}}</span>
+									</p>
+
+											<p class="hide-class left">
+												<strong>  Address</strong> : 
+												<br>
+												<textarea class="update-address full" id="updateaddr" rows="2" placeholder="Provide Full Address" required>{{address}}</textarea>
+											</p>
+
+									<p class="strt-class left">
+										<strong>  Comments</strong> : 
+										<br><span class="sComm">{{comments}}</span>
+									</p>
+
+											<p class="hide-class left">
+												<strong>  Comments</strong> : 
+												<br><textarea class="update-comments full" id="updatecomm" rows="5" placeholder="Any Comments (Optional)">{{comments}}</textarea>
+											</p>
+								</div>					
+							</div>
+							<div class="full right hide-class">
+								<button type="submit" class="btn btn-info save-details" data-id="{{id}}">
+									<span class="glyphicon glyphicon-floppy-disk"/> Save
+								</button>
+								<button class="btn btn-default noedit-details">
+									<span class="glyphicon glyphicon-remove"/> Cancel
+								</button>							
+							</div>
+						</form>
+					</div>
+				</td>
+			</tr>
+		</template>
+		
+		<template id="show-prev-template"> <!-- Template 3 - Next Prev -->
+			<div class="left pull-left">
+				<nav aria-label="Page navigation">
+					<ul class="pager">
+				    	<li><a id="prev-button">Previous</a></li>					    	
+				  	</ul>
+				</nav>
+			</div>	<!-- End of Panel -->
+		</template>	
+
+		<template id="show-next-template"> <!-- Template 3 - Next Prev -->
+			<div class="right pull-right">
+				<nav aria-label="Page navigation">
+					<ul class="pager">
+				    	<li><a id="next-button">Next</a></li>					    	
+				  	</ul>
+				</nav>
+			</div>	<!-- End of Panel -->
+		</template>	
+
+		<template id="show-end-template"> <!-- Template 3 - Next Prev -->
+			<tr class="tr">
+				<td colspan="5">
+					<h5><strong>End of Record</strong></h5>					
+				</td> <!-- End of Panel Body -->
+			</tr>	<!-- End of Panel -->
+		</template>	
+
+		<div class="modal fade" id="my-modal-1">
+			<div class="modal-dialog add-stud-modal">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal">&times;</button>
+						<h3 class="modal-title">Add Student</h3>
+					</div> <!-- End of Modal 2 Header -->
+					<form data-toggle="validator" role="form" class="add-modal add-form">
+						<div class="modal-body modal-scrollable">						
+							<label class="radio-inline">
+								<input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="male" required> Boy
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="female" required> Girl
+							</label>
+
+							<br><br>
+
+							<div class="row">
+								<div class="col-xs-12">
+									<label for="inputname" class="control-label">Name</label>
+									<input type="text" id="inputname" name="name" placeholder="Provide Full Name" class="form-control stud-name" data-error="Name is required" required>									
+								</div>
+							</div>
+
+							<br>
+
+							<div class="row">
+								<div class="col-xs-12">
+									<label for="inputclass" class="control-label">Class</label>
+								</div>
+								<div class="col-xs-6">
+									<input type="number" id="inputclass" name="clas" max="12" placeholder="Class" class="form-control pull-left stud-class" required>
+								</div>
+								<div class="col-xs-6">
+									<input type="text" name="div" placeholder="Div" class="form-control stud-div" maxlength="1" required>
+								</div>
+							</div>							
+							
+							<br>
+							
+							<div class="row">
+								<div class="col-xs-12">
+									<label for="inputfname" class="control-label">Father's Name</label>
+									<input type="text" id="inputfname" name="fname" class="form-control stud-fname" required>
+								</div>
+							</div>
+
+							<br>
+
+							<div class='form-group date'>
+								<label for="inputJDate" class="control-label">Join Date</label>
+			                    <input type="date" id="inputJDate" class="form-control stud-join" min="2008-01-01" max="2016-12-31" required>
+			                </div>
+														
+							<br>
+
+							<div class='form-group date'>
+								<label for="inputdob" class="control-label">Date of Birth</label>
+			                    <input type="date" id="inputdob" class="form-control stud-dob" min="1996-01-01" max="2005-12-31" required>
+			                </div>
+
+							<br>
+
+							<div class="row">
+								<div class="col-xs-12">
+									<label for="inputaddr" class="control-label">Address</label>
+									<textarea class="form-control stud-address" id="inputaddr" rows="3" placeholder="Provide Full Address" required></textarea>
+								</div>
+							</div>
+
+							<br>
+							
+							<div class="row">
+								<div class="col-xs-12">
+									<textarea class="form-control stud-comments" rows="3" placeholder="Any Comments (Optional)"></textarea>
+								</div>
+							</div>
+						
+						</div> <!-- End of Modal Body -->
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-primary btn-medium" id="add-stud-button" href=".">Submit</button>
+							<button class="btn btn-default" data-dismiss="modal" type="button">Cancel</button>
+						</div> <!-- End of Modal footer -->
+					</form>
+				</div> <!-- End of Modal Content -->
+			</div> <!-- End of Modal Dialog -->
+		</div> <!-- End of Modal -->
+
+		<!-- All Javascript at the bottom of the page for faster page loading -->
+			
+		<!-- First try for the online version of jQuery-->
+		<script src="http://code.jquery.com/jquery.js"></script>
+		
+		<!-- If no online access, fallback to our hardcoded version of jQuery -->
+		<script>window.jQuery || document.write('<script src="includes/js/jquery-1.8.2.min.js"><\/script>')</script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.js"></script>
+
+		<!-- Bootstrap JS -->
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+		
+		<!-- Date picker -->
+		<script src="bootstrap/js/moment.js"></script>
+		
+		<!-- <script src="includes/js/jquery-1.8.2.min.js"></script> -->
+
+		<!-- Custom JS -->
+		<script src="includes/js/script.js"></script>
+		<script src="includes/jquery/myquery.js"></script>		
+
+	</body>
+</html>
+

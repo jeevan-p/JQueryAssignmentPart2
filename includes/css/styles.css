@@ -1,0 +1,245 @@
+/*
+
+My Custom CSS
+=============
+
+/* --------------------------------------
+   Layout
+   -------------------------------------- */
+   .panel-body
+   {
+      padding: 5px 16px;
+   }
+
+/* --------------------------------------
+   Typography
+   -------------------------------------- */
+
+   .full
+   {
+      width: 100%;
+   }
+
+   .half
+   {
+      width: 45%;
+   }
+
+   .half-half
+   {
+      width: 20%;
+   }
+
+   .left
+   {
+      text-align: left;
+   }
+
+   .right
+   {
+      text-align: right;
+   }
+
+   .in-line
+   {
+      display: inline;
+   }
+
+   .small
+   {
+      width: 30px;
+   }
+
+   button
+   {
+      font-family: sans-serif;
+   }
+/* --------------------------------------
+   Navbar
+   -------------------------------------- */
+   .mymainlogo
+   {
+      height: 80px;
+   }
+
+   .mylogo
+   {
+      height: 100px;
+      padding: 5px;
+   }
+
+   .mainmenu
+   {
+      width: 100%;
+   }
+
+   .mainmenu ul
+   {
+      margin-left: 20px;
+   }
+
+
+/* --------------------------------------
+   Search Me
+   -------------------------------------- */   
+   .panel
+   {      
+      text-align: center;
+      background-color: #f8f8f8; 
+   }
+
+   #searchme
+   {
+      margin-top: 120px;      
+   }
+
+   .formbut
+   {
+      padding-top: 10px;
+      padding-bottom: 20px;
+   }
+
+   .formtxt input
+   {
+      height: 40px;
+      width: 500px;
+      font-size: 20px;
+      display: initial;
+   }
+
+   .grp
+   {
+      width: 100%;
+   }
+
+   #result-head
+   {
+      height: 50px;
+   }
+
+   .mytab tr th
+   {
+      text-align: center;
+   }
+
+   tbody th
+   {
+      font-weight: normal;
+   }
+
+   .frst-half
+   {
+      padding-left: 5%;
+      float: left;
+   }
+
+   .sec-half
+   {
+      width: 50%;
+      float: right;
+   }
+
+   .full-details, .contain
+   {
+      overflow: auto;
+   }
+
+   .recHide
+   {
+      display: none;
+   }
+   /* --------------------------------------
+   More Details Tab
+   -------------------------------------- */
+   .edit-details, .delete-details
+   {
+      margin: 10px 3px;
+   }
+
+   .hide-class
+   {
+      display: none;
+   }
+
+   .show-class
+   {
+      display: all;
+   }
+
+   .more-buttons
+   {
+      margin: 6px;
+   }
+
+   .contain input, .contain textarea
+   {
+      border: 1.5px solid darkgrey;
+      box-shadow: 0 0 5px darkgrey;      
+   }
+
+/* --------------------------------------
+   Add Student Modal
+   -------------------------------------- */
+   .modal-scrollable
+   {
+      overflow-y: auto;      
+   }
+/* --------------------------------------
+   About us
+   -------------------------------------- */
+
+/* --------------------------------------
+   Footer
+   -------------------------------------- */
+
+/* --------------------------------------
+   Global Styles
+   -------------------------------------- */
+
+/* --------------------------------------
+   Media Queries
+   -------------------------------------- */
+
+/* Portrait & landscape phone */
+@media (max-width: 480px) {
+   
+   .frst-half
+   {
+      padding: 0px;
+      width: 100%;
+   }
+
+   .sec-half
+   {
+      padding: 0px;
+      clear: both;
+      width: 100%;
+      text-align: left;
+   }
+
+   .recCount
+   {
+      display: none;
+   }
+
+   .recHide
+   {
+      display: initial;
+   }
+
+}
+
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+   .formtxt input /* Main Search box */
+   {      
+      height: 40px;
+      width: 270px;
+      font-size: 15px;
+   }
+}
+
+/* Large desktop */
+@media (min-width: 1200px) {
+      
+}
